@@ -27,6 +27,7 @@ type EchoServiceClient interface {
 	// The message posted as the id parameter will also be
 	// returned.
 	Echo(ctx context.Context, in *SimpleMessage, opts ...grpc.CallOption) (*SimpleMessage, error)
+	EchoNested(ctx context.Context, in *SimpleMessage, opts ...grpc.CallOption) (*SimpleMessage, error)
 	// EchoBody method receives a simple message and returns it.
 	EchoBody(ctx context.Context, in *SimpleMessage, opts ...grpc.CallOption) (*SimpleMessage, error)
 	// EchoDelete method receives a simple message and returns it.
@@ -50,6 +51,15 @@ func NewEchoServiceClient(cc grpc.ClientConnInterface) EchoServiceClient {
 func (c *echoServiceClient) Echo(ctx context.Context, in *SimpleMessage, opts ...grpc.CallOption) (*SimpleMessage, error) {
 	out := new(SimpleMessage)
 	err := c.cc.Invoke(ctx, "/grpc.gateway.examples.internal.proto.examplepb.EchoService/Echo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *echoServiceClient) EchoNested(ctx context.Context, in *SimpleMessage, opts ...grpc.CallOption) (*SimpleMessage, error) {
+	out := new(SimpleMessage)
+	err := c.cc.Invoke(ctx, "/grpc.gateway.examples.internal.proto.examplepb.EchoService/EchoNested", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,6 +111,7 @@ type EchoServiceServer interface {
 	// The message posted as the id parameter will also be
 	// returned.
 	Echo(context.Context, *SimpleMessage) (*SimpleMessage, error)
+	EchoNested(context.Context, *SimpleMessage) (*SimpleMessage, error)
 	// EchoBody method receives a simple message and returns it.
 	EchoBody(context.Context, *SimpleMessage) (*SimpleMessage, error)
 	// EchoDelete method receives a simple message and returns it.
@@ -119,6 +130,9 @@ type UnimplementedEchoServiceServer struct {
 
 func (UnimplementedEchoServiceServer) Echo(context.Context, *SimpleMessage) (*SimpleMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Echo not implemented")
+}
+func (UnimplementedEchoServiceServer) EchoNested(context.Context, *SimpleMessage) (*SimpleMessage, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EchoNested not implemented")
 }
 func (UnimplementedEchoServiceServer) EchoBody(context.Context, *SimpleMessage) (*SimpleMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EchoBody not implemented")
@@ -158,6 +172,24 @@ func _EchoService_Echo_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EchoServiceServer).Echo(ctx, req.(*SimpleMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EchoService_EchoNested_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SimpleMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EchoServiceServer).EchoNested(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.gateway.examples.internal.proto.examplepb.EchoService/EchoNested",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EchoServiceServer).EchoNested(ctx, req.(*SimpleMessage))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -244,6 +276,10 @@ var EchoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Echo",
 			Handler:    _EchoService_Echo_Handler,
+		},
+		{
+			MethodName: "EchoNested",
+			Handler:    _EchoService_EchoNested_Handler,
 		},
 		{
 			MethodName: "EchoBody",

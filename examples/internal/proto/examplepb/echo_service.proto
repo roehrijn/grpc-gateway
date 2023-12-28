@@ -20,6 +20,11 @@ message Embedded {
   }
 }
 
+message NewNestedMessage {
+  string foo = 1;
+  string bar = 2;
+}
+
 // SimpleMessage represents a simple message sent to the Echo service.
 message SimpleMessage {
   // Id represents the message identifier.
@@ -35,6 +40,8 @@ message SimpleMessage {
     Embedded no = 7;
   }
   string resource_id = 8;
+
+  NewNestedMessage foo = 9;
 }
 
 // DynamicMessage represents a message which can have its structure
@@ -63,6 +70,12 @@ service EchoService {
       additional_bindings {get: "/v1/example/echo1/{id}/{line_num}/{status.note}"}
       additional_bindings {get: "/v1/example/echo2/{no.note}"}
       additional_bindings {get: "/v1/example/echo/resource/{resource_id}"}
+    };
+  }
+
+  rpc EchoNested(SimpleMessage) returns (SimpleMessage) {
+    option (google.api.http) = {
+      get: "/v1/example/echo/nested/{foo.foo}"
     };
   }
   // EchoBody method receives a simple message and returns it.

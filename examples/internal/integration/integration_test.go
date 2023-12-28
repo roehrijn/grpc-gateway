@@ -18,10 +18,6 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/examplepb"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/pathenum"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/sub"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	statuspb "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -30,6 +26,11 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	"google.golang.org/protobuf/types/known/structpb"
+
+	"github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/examplepb"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/pathenum"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/sub"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 )
 
 var marshaler = &runtime.JSONPb{}
@@ -56,6 +57,34 @@ func TestEcho(t *testing.T) {
 			testEchoWithNonASCIIHeaderValues(t, 8088, apiPrefix)
 			testEchoWithInvalidHeaderKey(t, 8088, apiPrefix)
 		})
+	}
+}
+
+func TestEchoNested(t *testing.T) {
+	resp, err := http.Get("http://localhost:8088/v1/example/echo/nested/foo?foo.bar=bar")
+	if err != nil {
+		t.Errorf("http.Get() failed with %v; want success", err)
+		return
+	}
+	defer resp.Body.Close()
+	buf, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Errorf("io.ReadAll(resp.Body) failed with %v; want success", err)
+		return
+	}
+
+	if got, want := resp.StatusCode, http.StatusOK; got != want {
+		t.Errorf("resp.StatusCode = %d; want %d", got, want)
+		t.Logf("%s", buf)
+	}
+
+	msg := new(examplepb.SimpleMessage)
+	if err := marshaler.Unmarshal(buf, msg); err != nil {
+		t.Errorf("marshaler.Unmarshal(%s, msg) failed with %v; want success", buf, err)
+		return
+	}
+	if got, want := msg.Foo.Bar, "bar"; got != want {
+		t.Errorf("msg.Foo.Bar = %q; want %q", got, want)
 	}
 }
 

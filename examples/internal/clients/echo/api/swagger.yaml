@@ -11,6 +11,98 @@ consumes:
 produces:
 - "application/json"
 paths:
+  /v1/example/echo/nested/{foo.foo}:
+    get:
+      tags:
+      - "EchoService"
+      operationId: "EchoService_EchoNested"
+      parameters:
+      - name: "foo.foo"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "FooFoo"
+      - name: "id"
+        in: "query"
+        description: "Id represents the message identifier."
+        required: false
+        type: "string"
+        x-exportParamName: "Id"
+        x-optionalDataType: "String"
+      - name: "num"
+        in: "query"
+        required: false
+        type: "string"
+        format: "int64"
+        x-exportParamName: "Num"
+        x-optionalDataType: "String"
+      - name: "lineNum"
+        in: "query"
+        required: false
+        type: "string"
+        format: "int64"
+        x-exportParamName: "LineNum"
+        x-optionalDataType: "String"
+      - name: "lang"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "Lang"
+        x-optionalDataType: "String"
+      - name: "status.progress"
+        in: "query"
+        required: false
+        type: "string"
+        format: "int64"
+        x-exportParamName: "StatusProgress"
+        x-optionalDataType: "String"
+      - name: "status.note"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "StatusNote"
+        x-optionalDataType: "String"
+      - name: "en"
+        in: "query"
+        required: false
+        type: "string"
+        format: "int64"
+        x-exportParamName: "En"
+        x-optionalDataType: "String"
+      - name: "no.progress"
+        in: "query"
+        required: false
+        type: "string"
+        format: "int64"
+        x-exportParamName: "NoProgress"
+        x-optionalDataType: "String"
+      - name: "no.note"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "NoNote"
+        x-optionalDataType: "String"
+      - name: "resourceId"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "ResourceId"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
+        x-optionalDataType: "String"
+      responses:
+        200:
+          description: "A successful response."
+          schema:
+            $ref: "#/definitions/examplepbSimpleMessage"
+        default:
+          description: "An unexpected error response."
+          schema:
+            $ref: "#/definitions/rpcStatus"
   /v1/example/echo/resource/{resourceId}:
     get:
       tags:
@@ -83,6 +175,18 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "NoNote"
+        x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
         x-optionalDataType: "String"
       responses:
         200:
@@ -166,6 +270,18 @@ paths:
         type: "string"
         x-exportParamName: "ResourceId"
         x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
+        x-optionalDataType: "String"
       responses:
         200:
           description: "A successful response."
@@ -247,6 +363,18 @@ paths:
         type: "string"
         x-exportParamName: "ResourceId"
         x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
+        x-optionalDataType: "String"
       responses:
         200:
           description: "A successful response."
@@ -327,6 +455,18 @@ paths:
         type: "string"
         x-exportParamName: "ResourceId"
         x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
+        x-optionalDataType: "String"
       responses:
         200:
           description: "A successful response."
@@ -400,6 +540,18 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "ResourceId"
+        x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
         x-optionalDataType: "String"
       responses:
         200:
@@ -476,6 +628,18 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "ResourceId"
+        x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
         x-optionalDataType: "String"
       responses:
         200:
@@ -574,6 +738,18 @@ paths:
         type: "string"
         x-exportParamName: "ResourceId"
         x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
+        x-optionalDataType: "String"
       responses:
         200:
           description: "A successful response."
@@ -654,6 +830,18 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "NoNote"
+        x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
         x-optionalDataType: "String"
       responses:
         200:
@@ -736,6 +924,18 @@ paths:
         required: false
         type: "string"
         x-exportParamName: "ResourceId"
+        x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
         x-optionalDataType: "String"
       responses:
         200:
@@ -843,6 +1043,18 @@ paths:
         type: "string"
         x-exportParamName: "ResourceId"
         x-optionalDataType: "String"
+      - name: "foo.foo"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooFoo"
+        x-optionalDataType: "String"
+      - name: "foo.bar"
+        in: "query"
+        required: false
+        type: "string"
+        x-exportParamName: "FooBar"
+        x-optionalDataType: "String"
       responses:
         200:
           description: "A successful response."
@@ -889,6 +1101,16 @@ definitions:
     example:
       note: "note"
       progress: "progress"
+  examplepbNewNestedMessage:
+    type: "object"
+    properties:
+      foo:
+        type: "string"
+      bar:
+        type: "string"
+    example:
+      bar: "bar"
+      foo: "foo"
   examplepbSimpleMessage:
     type: "object"
     properties:
@@ -912,6 +1134,8 @@ definitions:
         $ref: "#/definitions/examplepbEmbedded"
       resourceId:
         type: "string"
+      foo:
+        $ref: "#/definitions/examplepbNewNestedMessage"
     description: "SimpleMessage represents a simple message sent to the Echo service."
     example:
       "no":
@@ -919,6 +1143,9 @@ definitions:
         progress: "progress"
       resourceId: "resourceId"
       num: "num"
+      foo:
+        bar: "bar"
+        foo: "foo"
       lineNum: "lineNum"
       en: "en"
       id: "id"

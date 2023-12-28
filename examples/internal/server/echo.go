@@ -3,12 +3,13 @@ package server
 import (
 	"context"
 
-	examples "github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/examplepb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+
+	examples "github.com/grpc-ecosystem/grpc-gateway/v2/examples/internal/proto/examplepb"
 )
 
 // Implements of EchoServiceServer
@@ -17,6 +18,11 @@ type echoServer struct{}
 
 func newEchoServer() examples.EchoServiceServer {
 	return new(echoServer)
+}
+
+func (s *echoServer) EchoNested(ctx context.Context, message *examples.SimpleMessage) (*examples.SimpleMessage, error) {
+	grpclog.Info(message)
+	return message, nil
 }
 
 func (s *echoServer) Echo(ctx context.Context, msg *examples.SimpleMessage) (*examples.SimpleMessage, error) {
